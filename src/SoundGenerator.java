@@ -26,7 +26,6 @@ public class SoundGenerator {
     // Envia comando para definir o volume do som
     public static void setVolume(int volume) {
         SerialEmitter.send(SerialEmitter.Destination.SSC,4,volume);
-     ;
 
     }
 }

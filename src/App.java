@@ -18,9 +18,9 @@ public class App {
         TUI.init();
         Coins.init();
         initCounts();
-        //Coins.setCoinsTotal(Statistics.callReadCoins());
-        //Scores.setNumberOfGames(Statistics.callReadGames());
-        //Statistics.callReadPoints();
+        Coins.setCoinsTotal(Statistics.callReadCoins());
+        Scores.setNumberOfGames(Statistics.callReadGames());
+        Statistics.callReadPoints();
     }
 
     private static void run(){
@@ -32,7 +32,6 @@ public class App {
     }
 
     private static int idx = 0;
-    private static Scores scores;
     private static void idleView(boolean trade){ //Switch between the idleScreen and a score
         TUI.cursor(0,0);
         TUI.write(" Space Invaders ");
@@ -44,7 +43,7 @@ public class App {
             if(Scores.pointAr[0]==null){
                 idleScreen(Coins.coinsTotal);
             }else {
-                scores = Scores.pointAr[idx];
+                Scores scores = Scores.pointAr[idx];
 
                 scoresView(scores.getName(),scores.getPoints());
 
@@ -103,7 +102,7 @@ public class App {
                     return false;
             }
 
-            if((Time.getTimeInMillis()-timeStart)>3000){
+            if((Time.getTimeInMillis()-timeStart)>2000){
                 idleView(trade); trade = !trade;    //Switches between the views
                 timeStart = Time.getTimeInMillis(); //Or timeStart+=1500;
             }
@@ -139,6 +138,7 @@ public class App {
                 }
             }
             if(key == '*') startGameM();
+            key = TUI.getKey();
         }
 
         return true;
@@ -156,10 +156,10 @@ public class App {
 
     private static void viewCoinsAndGames() {
         TUI.cursor(0,0);
-        TUI.write("Coins :"+Coins.getCoinsTotal());
+        TUI.write(toView("Coins:"+Coins.getCoinsTotal()));
 
         TUI.cursor(1,0);
-        TUI.write("Games"+Scores.getNumberofGames());
+        TUI.write(toView("Games:"+Scores.getNumberOfGames()));
     }
 
     private static void initPlay(){
@@ -170,37 +170,38 @@ public class App {
     //private static int index = 0;
     //private static Scores score = Scores.pointAr[index];
     private static boolean play = true;
-    private static char prevKey = '*';
+    private static char prevKey;
     private static void play(){
         long timeStart = Time.getTimeInMillis();
         initPlay();
 
-        char currKey; //prevKey='*';
+        char currKey;
 
         do {
-            playView();              // View of the game
-            currKey = TUI.getKey();  // Read a key
+            playView();             // View of the game
+
+            currKey = TUI.getKey(); // Read a key
 
             if(currKey=='*'){
                 int spaceCheck = killInvader(prevKey);
                 if(spaceCheck!=10){                  //Killed the invader
-                    pointsAux+=spaceCheck+1;              //Adds the corresponding score
-                    //score.addPoints(spaceCheck);     //Adds the corresponding score
+                    pointsAux+=spaceCheck+1;         //Adds the corresponding score
                     currKey=0;                       //Makes the user only be able to shoot once at a time
                 }
             }
 
-            if((Time.getTimeInMillis()-timeStart)>1000){ //Adds a invader every 1.5 secs
+            if((Time.getTimeInMillis()-timeStart)>1000){ //Adds a invader every 1 sec
                 if (!addInvader()) play = false;
-                timeStart = Time.getTimeInMillis(); //Or timeStart+=1000;
+                timeStart = Time.getTimeInMillis();
             }
 
             prevKey = currKey;
-        } while (play);  //Game Cicle
+
+        } while (play);  //Game Cycle
     }
 
     private static void playView(){
-        if(prevKey=='*'){
+        if(prevKey=='*' || prevKey == 0){
             TUI.dataView(0,0,IDLE);
         }else {
             TUI.charView(0,0,prevKey);
@@ -228,7 +229,6 @@ public class App {
 
         if(pointsAux != 0) {
             new Scores(name(), pointsAux);
-            //index++;
             pointsAux = 0;
         }
 
@@ -279,7 +279,7 @@ public class App {
 
     private static void terminate(){
         Statistics.callWritePoints(Scores.pointAr);
-        Statistics.callWriteCount(Coins.getCoinsTotal(),Scores.getNumberofGames());
+        Statistics.callWriteCount(Coins.getCoinsTotal(),Scores.getNumberOfGames());
     }
 
 }

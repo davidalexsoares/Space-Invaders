@@ -29,6 +29,7 @@ public class Scores {
     public static void add (Scores score){
         if(pointAr[0]==null){
             pointAr[0] = score;
+            System.out.println(score.getName()+"->"+score.getPoints());
             return;
         }
         for (int i = 0; i < pointAr.length; i++){
@@ -39,11 +40,7 @@ public class Scores {
                 }
             }
         }
-        System.out.println("Name:"+score.getName()+",Points:"+score.getPoints());
-    }
-
-    public void addPoints(int points) {
-        this.points += points + 1;
+        System.out.println(score.getName()+"->"+score.getPoints());
     }
 
     public String toString() {
@@ -65,12 +62,8 @@ public class Scores {
         new Scores(name, points); //Creates a new Score
     }
 
-    public static int getNumberofGames() {
+    public static int getNumberOfGames() {
         return numberOfGames;
-    }
-
-    public void resetPoints(){
-        points = 0;
     }
 
     public static void resetNumberGames() {

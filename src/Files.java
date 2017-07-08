@@ -56,10 +56,11 @@ public class Files {
     }
 
     // escreve no ficheiro de texto Points.txt o numero de pontos
-    public void writePoints(Scores[] points) {
+    public static void writePoints(Scores[] points) {
         try {
             FileWriter out = new FileWriter("Points.txt");
             for (Scores score : points) {
+                if(score==null) return;
                 out.write(score.toString());
             }
             out.close();

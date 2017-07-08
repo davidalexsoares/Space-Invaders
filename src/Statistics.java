@@ -1,13 +1,11 @@
 public class Statistics {
 
-    private static Files file;
-
     public static void callWriteCount(int coins, int games){
         Files.writeCounters(coins,games);
     }
 
     public static void callWritePoints(Scores[] points){
-        file.writePoints(points);
+        Files.writePoints(points);
     }
 
     public static void callReadPoints(){
