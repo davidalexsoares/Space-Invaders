@@ -60,8 +60,8 @@ public class Files {
         try {
             FileWriter out = new FileWriter("Points.txt");
             for (Scores score : points) {
-                if(score==null) return;
-                out.write(score.toString());
+                if(score==null) break;
+                out.write(score.toString()+"\n");
             }
             out.close();
         } catch (IOException e) {
@@ -73,6 +73,7 @@ public class Files {
         try{
             FileWriter out = new FileWriter("Counters.txt");
             out.write( coins+";"+games);
+            out.close();
         }
         catch (IOException exception){
             exception.printStackTrace();

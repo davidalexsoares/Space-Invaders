@@ -12,7 +12,7 @@ public class App {
 
     public static void main (String[] args){
         init();
-        run();        // Loop of the game
+        run();
         terminate();
     }
 
@@ -191,6 +191,7 @@ public class App {
     private static void initPlay(){
         initInvaders();
         addInvader();
+        play = true;
     }
 
     private static boolean play = true;
