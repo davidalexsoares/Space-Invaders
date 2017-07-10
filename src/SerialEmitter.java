@@ -9,7 +9,7 @@ public class SerialEmitter { //Envia tramas para os diferentes módulos Serial R
     private static int SCLK = 0x01;                 //PIN 1 - LCD
     private static int SDXMASK = 0x02;              //PIN 2 - LCD
     private static int SLCD_SELECT_MASK = 0x04;     //PIN 4 - LCD
-    private static int SSC_SELECT_MASK = 0x08;      //PIN 4 - SOUND
+    public static int SSC_SELECT_MASK = 0x08;      //PIN 4 - SOUND
     private static int DESTINATION_MASKS[] = {SLCD_SELECT_MASK, SSC_SELECT_MASK};
 
     public static void main (String [] args) {

@@ -79,7 +79,7 @@ public class TUI {
         write("                ");
     }
 
-    public static void write(char aux){
+    public static void writeChar(char aux){
         LCD.write(aux);
     }
 

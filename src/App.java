@@ -7,6 +7,8 @@ public class App {
                              EURO = 0x2,
                              IDLE = 0x5D;
     private static int pointsAux = 0;
+    private static final int INVADERS_DELAY = 1000;
+    private static final int VIEW_DELAY = 2000;
 
     public static void main (String[] args){
         init();
@@ -102,9 +104,9 @@ public class App {
                     return false;
             }
 
-            if((Time.getTimeInMillis()-timeStart)>2000){
+            if((Time.getTimeInMillis()-timeStart)>VIEW_DELAY){
                 idleView(trade); trade = !trade;    //Switches between the views
-                timeStart = Time.getTimeInMillis(); //Or timeStart+=1500;
+                timeStart = Time.getTimeInMillis();
             }
 
         }while (true);
@@ -127,26 +129,50 @@ public class App {
 
     private static boolean mKey(char key) { //return true = proceed, return false = close game
         while (M.isM()){
-            TUI.stringView(0,0,"On Maintenance");
-            TUI.stringView(1,0,"*-Count  #-shutD");
-            if(key=='#'){
-                viewCoinsAndGames();
-                if (TUI.waitKey(4000)=='*'){
-                    return false;
-                }else {
-                    initCounts();
-                }
+            mView();
+
+            switch (key){
+                case '#':
+                    shutDView();
+                    while (true){
+                        key = TUI.getKey();
+                        if(key=='5'){
+                            return false;
+                        }else if(key >= '0' && key <='9' ||
+                                key =='*' || key == '#') break;
+                    }
+                    break;
+                case '*':
+                    viewCoinsAndGames();
+                    if (TUI.waitKey(4000)=='#'){
+                        initCounts();
+                    }
+                    break;
+                case '0': case '1': case '2':case '3':case '4':case '5':
+                    case '6': case '7':case '8':case '9':
+                        startGameM();
+                        break;
+
             }
-            if(key == '*') startGameM();
             key = TUI.getKey();
         }
 
         return true;
     }
 
+    private static void mView(){
+        TUI.stringView(0,0,toView("On Maintenance"));
+        TUI.stringView(1,0,"*-Count  #-ShutD");
+    }
+
+    private static void shutDView(){
+        TUI.stringView(0,0,"    Shutdown    ");
+        TUI.stringView(1,0,"5-Yes   other-No");
+    }
+
     private static void startGameM() { //**
-        Scores.addGames();
         play();
+        overView();
     }
 
     private static void initCounts() {
@@ -167,8 +193,6 @@ public class App {
         addInvader();
     }
 
-    //private static int index = 0;
-    //private static Scores score = Scores.pointAr[index];
     private static boolean play = true;
     private static char prevKey;
     private static void play(){
@@ -190,7 +214,7 @@ public class App {
                 }
             }
 
-            if((Time.getTimeInMillis()-timeStart)>1000){ //Adds a invader every 1 sec
+            if((Time.getTimeInMillis()-timeStart)>INVADERS_DELAY){ //Adds a invader every 1 sec
                 if (!addInvader()) play = false;
                 timeStart = Time.getTimeInMillis();
             }
@@ -222,17 +246,21 @@ public class App {
     }
 
     private static void gameOver() {
-        TUI.stringView(0, 0, "*** Game Over **");
-        TUI.stringView(1, 0, toView("Score:"+pointsAux));
-
-        Time.sleep(2500);
+        overView();
 
         if(pointsAux != 0) {
             new Scores(name(), pointsAux);
             pointsAux = 0;
         }
+    }
+
+    private static void overView(){
+        TUI.stringView(0, 0, "*** Game Over **");
+        TUI.stringView(1, 0, toView("Score:"+pointsAux));
 
         Scores.addGames();
+
+        Time.sleep(2500);
     }
 
     private static String name(){
@@ -278,6 +306,9 @@ public class App {
     }
 
     private static void terminate(){
+        TUI.stringView(0,2,toView("Shutting"));
+        TUI.clearLine(1);
+        TUI.stringView(1,8,toView("Down..."));
         Statistics.callWritePoints(Scores.pointAr);
         Statistics.callWriteCount(Coins.getCoinsTotal(),Scores.getNumberOfGames());
     }

@@ -37,7 +37,11 @@ public class Scores {
                 if (pointAr[i].points < score.points){
                     System.arraycopy(pointAr, i, pointAr, i+1, pointAr.length-i-1);
                     pointAr[i]=score;
+                    break;
                 }
+            }else{
+                pointAr[i]=score;
+                break;
             }
         }
         System.out.println(score.getName()+"->"+score.getPoints());
