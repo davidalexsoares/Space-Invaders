@@ -18,6 +18,7 @@ public class App {
 
     private static void init(){
         TUI.init();
+        SoundGenerator.init();
         Coins.init();
         initCounts();
         Coins.setCoinsTotal(Statistics.callReadCoins());
@@ -260,6 +261,10 @@ public class App {
         TUI.stringView(1, 0, toView("Score:"+pointsAux));
 
         Scores.addGames();
+
+        SoundGenerator.setVolume(1);
+        SoundGenerator.setSound(1);
+        SoundGenerator.play();
 
         Time.sleep(2500);
     }

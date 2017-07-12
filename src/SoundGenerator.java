@@ -8,7 +8,7 @@ public class SoundGenerator {
     public static void main(String [] args) {
         init();
         setVolume(1);
-        setSound(1); //Quando queres que toque tens de fazer play (na app)
+        setSound(1);
         play();
     }
 
