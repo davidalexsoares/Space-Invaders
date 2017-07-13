@@ -17,7 +17,7 @@ public class LCD { // Escreve no LCD usando a interface a 8 bits.
         write("        ");writeDATA(EURO);write("2");
     }
 
-    private static final int LINES = 2, COLS = 16, // Dimensão do display.
+    public static final int LINES = 2, COLS = 16, // Dimensão do display.
             DATA_SIZE = 9,
             FUNCTION_SET = 0X30, FUNCTION_SET_FINAL = 0X38,
             DISPLAY_CLEAR = 0X1, DISPLAY_OFF = 0X8, DISPLAY_ON_OFF_CONTROL = 0XF,

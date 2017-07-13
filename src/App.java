@@ -317,6 +317,7 @@ public class App {
         TUI.stringView(1,8,toView("Down..."));
         Statistics.callWritePoints(Scores.pointAr);
         Statistics.callWriteCount(Coins.getCoinsTotal(),Scores.getNumberOfGames());
+        TUI.turnOff();
     }
 
 }

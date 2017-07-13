@@ -60,7 +60,6 @@ public class TUI {
 
             LCD.cursor(0,5);
             LCD.write(str.toString());
-            //LCD.write(LETTER);
         }
 
         return str.toString();
@@ -81,6 +80,10 @@ public class TUI {
 
     public static void writeChar(char aux){
         LCD.write(aux);
+    }
+
+    public static void turnOff() {
+        LCD.writeCMD(LCD.DISPLAY_OFF);
     }
 
     public static void writeDATA(int aux){
